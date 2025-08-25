@@ -77,6 +77,8 @@ jobs:
           auto-update-conda: false
           auto-activate-base: false
           show-channel-urls: true
+          channels: conda-forge,sepandhaghighi
+          channel-priority: strict
 
       # - name: Install dependencies
       #   run: |

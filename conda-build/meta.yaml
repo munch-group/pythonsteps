@@ -28,10 +28,10 @@ requirements:
 #   - conda-forge
 #   - sepandhaghighi
 
-extra:
-  channels: # channels for your library dependencies
-    - conda-forge
-    - sepandhaghighi
+# extra:
+#   channels: 
+#     - conda-forge
+#     - sepandhaghighi
 
 dependencies:   # keep this block with only these packages
   - anaconda-client
