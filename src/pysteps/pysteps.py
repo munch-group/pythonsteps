@@ -25,9 +25,9 @@ Fix that before you use bphelp.
         dir_name = '.'
     tmpname = dir_name + '/._' + os.path.basename(file_name)
 
-    import bp_help.steps
+    import pysteps.steps
 
-    with open(bp_help.steps.__file__) as f:
+    with open(pysteps.steps.__file__) as f:
         steps_code = f.read()
     with open(file_name) as i:
         with open(tmpname, 'w') as o:

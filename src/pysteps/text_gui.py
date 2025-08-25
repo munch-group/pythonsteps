@@ -896,7 +896,7 @@ def run():
         day_delta += args.day_delta
         
 
-    pickle_file_name = os.path.join(os.path.expanduser('~'), '.bp_help_progress.pkl')
+    pickle_file_name = os.path.join(os.path.expanduser('~'), '.pysteps_progress.pkl')
      
     if os.path.exists(pickle_file_name):
         with open(pickle_file_name, 'rb') as pickle_file:
