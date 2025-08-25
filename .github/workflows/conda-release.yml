@@ -91,16 +91,15 @@ jobs:
       #     pytest test
 
       - name: Build and upload the conda packages
-        uses: munch-group/action-conda-build-upload@v0.1.11
+        uses: munch-group/action-conda-build-upload@v0.1.26
         with:
           meta_yaml_dir: conda-build
           conda_build_args: -c conda-forge -c munch-group
           # conda_build_args: "--python ${{ matrix.python-version }}"
           # platform_all: true
-          platform_win-64: true
-          platform_osx-arm64: true
-          platform_linux-64: true
-          platform_osx-64: true
+          # platform_osx-arm64: true
+          # platform_linux-64: true
+          # platform_osx-64: true
           user: munch-group
           # label: auto
           token: ${{ secrets.ANACONDA_TOKEN }}
