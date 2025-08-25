@@ -24,9 +24,14 @@ requirements:
     - {{ dep.lower() }}
     {% endfor %}  
 
-channels:  # channels for your library dependencies
-  - conda-forge
-  - sepandhaghighi
+# channels:  # channels for your library dependencies
+#   - conda-forge
+#   - sepandhaghighi
+
+extra:
+  channels: # channels for your library dependencies
+    - conda-forge
+    - sepandhaghighi
 
 dependencies:   # keep this block with only these packages
   - anaconda-client
