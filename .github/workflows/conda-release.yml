@@ -60,7 +60,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macOS-latest, macOS-13, ubuntu-latest, windows-latest]
+        os: [macos-latest, macos-13, ubuntu-latest, windows-latest]
         # os: [ubuntu-latest]
         # python-version: ["3.10", "3.11", "3.12", "3.13"] 
         python-version: ["3.9"] 
@@ -87,22 +87,47 @@ jobs:
 
           activate-environment: build-env
 
-      - name: Install conda-build
+      - name: Install conda-build and anaconda-client
         run: |
-          conda install conda-build conda-verify
+          conda install conda-build conda-verify anaconda-client
 
       - name: Build package (Unix)
         if: runner.os != 'Windows'
         run: |
-          conda build recipe/ --output-folder ./build_output
+          conda build conda-build/ --output-folder ./build_output
           
       - name: Build package (Windows)
         if: runner.os == 'Windows'
         shell: cmd /C call {0}
         run: |
-          conda build recipe/ --output-folder build_output
+          conda build conda-build/ --output-folder build_output
      
+      - name: List built packages
+        run: |
+          ls -la build_output/*/ || dir build_output
           
+      - name: Upload to Anaconda (if tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+        run: |
+          # Find all built packages
+          for package in $(find build_output -name "*.tar.bz2" -o -name "*.conda" 2>/dev/null || true); do
+            echo "Uploading $package"
+            anaconda -t $ANACONDA_TOKEN upload -u your-channel-name $package --force
+          done
+          
+      - name: Upload to Anaconda (Windows)
+        if: runner.os == 'Windows' && startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        env:
+          ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+        run: |
+          $packages = Get-ChildItem -Path "build_output" -Recurse -Include "*.tar.bz2","*.conda"
+          foreach ($package in $packages) {
+            Write-Host "Uploading $($package.FullName)"
+            anaconda -t $env:ANACONDA_TOKEN upload -u your-channel-name $($package.FullName) --force
+          }          
 
       # - name: Install dependencies
       #   run: |
@@ -114,17 +139,17 @@ jobs:
       #     pip install pytest
       #     pytest test
 
-      - name: Build and upload the conda packages
-        uses: munch-group/action-conda-build-upload@v0.1.26
-        with:
-          meta_yaml_dir: conda-build
-          conda_build_args: -c conda-forge -c munch-group
-          # conda_build_args: "--python ${{ matrix.python-version }}"
-          # platform_all: true
-          # platform_osx-arm64: true
-          # platform_linux-64: true
-          # platform_osx-64: true
-          user: munch-group
-          # label: auto
-          token: ${{ secrets.ANACONDA_TOKEN }}
-          overwrite: true
+      # - name: Build and upload the conda packages
+      #   uses: munch-group/action-conda-build-upload@v0.1.26
+      #   with:
+      #     meta_yaml_dir: conda-build
+      #     conda_build_args: -c conda-forge -c munch-group
+      #     # conda_build_args: "--python ${{ matrix.python-version }}"
+      #     # platform_all: true
+      #     # platform_osx-arm64: true
+      #     # platform_linux-64: true
+      #     # platform_osx-64: true
+      #     user: munch-group
+      #     # label: auto
+      #     token: ${{ secrets.ANACONDA_TOKEN }}
+      #     overwrite: true
