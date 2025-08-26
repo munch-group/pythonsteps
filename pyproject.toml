@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pysteps"
-version = "0.1.30"
+version = "0.1.31"
 description = "Project description"
 authors = [
     {name = "Your Name", email = "your@email.com"}
@@ -40,7 +40,8 @@ where = ["src"]
 exclude = ["test*"]
 
 [tool.setuptools.package-data]
-pysteps = ["data/*.txt", "data/*.csv", "data/*.pickle", "data/*.h5"]
+# pysteps = ["data/*.txt", "data/*.csv", "data/*.pickle", "data/*.h5"]
+pysteps = ["*.css"]
 
 [tool.pixi.workspace]
 channels = ["conda-forge", "munch-group"]
