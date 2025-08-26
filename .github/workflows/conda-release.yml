@@ -57,12 +57,12 @@ jobs:
   conda_deployment_with_new_tag:
 
       name: Conda deployment of package for platform ${{ matrix.os }} with Python ${{ matrix.python-version }}
-      
+
       runs-on: ${{ matrix.os }}
       strategy:
         fail-fast: false
         matrix:
-          os: [ubuntu-latest, windows-latest, macos-latest]
+          os: [ubuntu-latest, windows-latest, macos-latest, macos-13]
       
       steps:
       - uses: actions/checkout@v3
@@ -70,9 +70,9 @@ jobs:
       # IMPORTANT: Use Mambaforge for better Windows support
       - uses: conda-incubator/setup-miniconda@v3
         with:
-          miniforge-variant: Mambaforge
+#          miniforge-variant: Mambaforge
           miniforge-version: latest
-          activate-environment: test  # Match your environment name
+          activate-environment: buildenv  # Match your environment name
           python-version: 3.9
           use-mamba: true
           
