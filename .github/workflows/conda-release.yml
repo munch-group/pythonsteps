@@ -114,7 +114,7 @@ jobs:
           # Find all built packages
           for package in $(find build_output -name "*.tar.bz2" -o -name "*.conda" 2>/dev/null || true); do
             echo "Uploading $package"
-            anaconda -t $ANACONDA_TOKEN upload -u your-channel-name $package --force
+            anaconda -t $ANACONDA_TOKEN upload -u munch-group $package --force
           done
           
       - name: Upload to Anaconda (Windows)
@@ -126,7 +126,7 @@ jobs:
           $packages = Get-ChildItem -Path "build_output" -Recurse -Include "*.tar.bz2","*.conda"
           foreach ($package in $packages) {
             Write-Host "Uploading $($package.FullName)"
-            anaconda -t $env:ANACONDA_TOKEN upload -u your-channel-name $($package.FullName) --force
+            anaconda -t $env:ANACONDA_TOKEN upload -u munch-group $($package.FullName) --force
           }          
 
       # - name: Install dependencies
