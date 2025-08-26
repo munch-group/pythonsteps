@@ -74,12 +74,12 @@ jobs:
           miniforge-version: latest
           activate-environment: buildenv  # Match your environment name
           python-version: 3.9
-          use-mamba: true
+          # use-mamba: true
           
       - name: Install conda-build
         shell: bash -el {0}
         run: |
-          mamba install -c conda-forge conda-build conda-verify anaconda-client boa
+          conda install -c conda-forge conda-build conda-verify anaconda-client boa
           
       # Build with specific Windows workarounds
       - name: Build package
