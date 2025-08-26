@@ -833,21 +833,27 @@ class STEPSApp(App):
 def check_for_conda_update():
     """Checks for a more recent conda version and prints a message.
     """
-    cmd = 'conda search -c kaspermunch bp-help'
+    cmd = 'conda search -c munch-group pysteps'
     cmd = shlex.split(cmd)
     cmd[0] = shutil.which(cmd[0])    
     conda_search = subprocess.check_output(cmd, shell=False).decode()
     newest_version = conda_search.strip().splitlines()[-1].split()[1]
-    cmd = 'conda list -f bp-help'
+    cmd = 'conda list -f pysteps'
     cmd = shlex.split(cmd)
     cmd[0] = shutil.which(cmd[0])    
     conda_search = subprocess.check_output(cmd, shell=False).decode()
     this_version = conda_search.strip().splitlines()[-1].split()[1]
     if LooseVersion(newest_version) > LooseVersion(this_version):
-        print('\nPlease update Myiagi to get the most most recent version ({})'.format(newest_version))
-        print('before you start the game. To update Myiagi, run this command:')
-        print('\n    conda update -y bp-help\n')
+        cmd = 'pixi global update pysteps'
+        cmd = shlex.split(cmd)
+        cmd[0] = shutil.which(cmd[0])    
+        result = subprocess.check_output(cmd, shell=False).decode()
+        print("Myiagi was updated. Please start it again.")
         sys.exit()
+        # print('\nPlease update Myiagi to get the most most recent version ({})'.format(newest_version))
+        # print('before you start the game. To update Myiagi, run this command:')
+        # print('\n    conda update -y pysteps\n')
+        # sys.exit()
 
 
 def run():
