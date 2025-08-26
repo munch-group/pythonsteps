@@ -56,46 +56,44 @@ jobs:
 
   conda_deployment_with_new_tag:
 
-    name: Conda deployment of package for platform ${{ matrix.os }} with Python ${{ matrix.python-version }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest, macos-13, ubuntu-latest, windows-latest]
-        # os: [ubuntu-latest]
-        # python-version: ["3.10", "3.11", "3.12", "3.13"] 
-        python-version: ["3.9"] 
-
-    defaults:
-      run:
-        shell: bash -el {0}  # Use login shell
-
-    steps:
+      name: Conda deployment of package for platform ${{ matrix.os }} with Python ${{ matrix.python-version }}
+      
+      runs-on: ${{ matrix.os }}
+      strategy:
+        fail-fast: false
+        matrix:
+          os: [ubuntu-latest, windows-latest, macos-latest]
+      
+      steps:
       - uses: actions/checkout@v3
-
-      - name: Conda environment creation and activation
-        uses: conda-incubator/setup-miniconda@v3
+      
+      # IMPORTANT: Use Mambaforge for better Windows support
+      - uses: conda-incubator/setup-miniconda@v3
         with:
-          miniconda-version: "latest"
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          activate-environment: test  # Match your environment name
+          python-version: 3.9
           use-mamba: true
-          python-version: ${{ matrix.python-version }}
-          # environment-file: conda-build/build_env.yaml 
-          auto-update-conda: false
-          auto-activate-base: false
-          show-channel-urls: true
-          channels: conda-forge,sepandhaghighi
-          channel-priority: strict
-          # activate-environment: build-env
-
+          
       - name: Install conda-build
         shell: bash -el {0}
         run: |
-          mamba install conda-build conda-verify anaconda-client boa
+          mamba install -c conda-forge conda-build conda-verify anaconda-client boa
           
-      - name: Build package (all platforms)
+      # Build with specific Windows workarounds
+      - name: Build package
+        shell: bash -el {0}
+        env:
+          CONDA_BUILD_CROSS_COMPILATION: 1  # Critical for Windows
+          PYTHONUNBUFFERED: 1
+        run: |
+          conda mambabuild recipe/ --output-folder ./build_output --no-test
+          
+      - name: List packages
         shell: bash -el {0}
         run: |
-          # This works with activate_in_script: false
-          conda mambabuild conda-build/ --output-folder ./build_output
+          ls -la build_output/*/ 2>/dev/null || find build_output -name "*.tar.bz2" -o -name "*.conda"
           
       - name: Upload to Anaconda
         if: startsWith(github.ref, 'refs/tags/')
@@ -103,7 +101,69 @@ jobs:
         env:
           ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
         run: |
-          anaconda -t $ANACONDA_TOKEN upload build_output/*/*.tar.bz2 --user munch-group
+          for pkg in build_output/*/*.tar.bz2 build_output/*/*.conda; do
+            if [ -f "$pkg" ]; then
+              anaconda -t $ANACONDA_TOKEN upload -u your-channel "$pkg" --skip-existing
+            fi
+          done
+
+
+
+    # name: Conda deployment of package for platform ${{ matrix.os }} with Python ${{ matrix.python-version }}
+
+    # runs-on: ${{ matrix.os }}
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     os: [macos-latest, macos-13, ubuntu-latest, windows-latest]
+    #     # os: [ubuntu-latest]
+    #     # python-version: ["3.10", "3.11", "3.12", "3.13"] 
+    #     python-version: ["3.9"] 
+
+    # defaults:
+    #   run:
+    #     shell: bash -el {0}  # Use login shell
+
+    # steps:
+    #   - uses: actions/checkout@v3
+
+    #   - name: Conda environment creation and activation
+    #     uses: conda-incubator/setup-miniconda@v3
+    #     with:
+    #       miniconda-version: "latest"
+    #       use-mamba: true
+    #       python-version: ${{ matrix.python-version }}
+    #       # environment-file: conda-build/build_env.yaml 
+    #       auto-update-conda: false
+    #       auto-activate-base: false
+    #       show-channel-urls: true
+    #       channels: conda-forge,sepandhaghighi
+    #       channel-priority: strict
+    #       # activate-environment: build-env
+
+    #   - name: Install conda-build
+    #     shell: bash -el {0}
+    #     run: |
+    #       mamba install conda-build conda-verify anaconda-client boa
+          
+    #   - name: Build package (all platforms)
+    #     shell: bash -el {0}
+    #     run: |
+    #       # This works with activate_in_script: false
+    #       conda mambabuild conda-build/ --output-folder ./build_output
+          
+    #   - name: Upload to Anaconda
+    #     if: startsWith(github.ref, 'refs/tags/')
+    #     shell: bash -el {0}
+    #     env:
+    #       ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+    #     run: |
+    #       anaconda -t $ANACONDA_TOKEN upload build_output/*/*.tar.bz2 --user munch-group
+
+
+
+
+
 
       # - name: Build package (Unix)
       #   if: runner.os != 'Windows'
@@ -155,7 +215,7 @@ jobs:
 
 
 
-      
+
       # - name: Install dependencies
       #   run: |
       #     python -m pip install --upgrade pip

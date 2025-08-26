@@ -13,9 +13,7 @@ build:
   activate_in_script: false  # [win]
   missing_dso_whitelist:
     - '*.dll'  # [win]
-  script:
-    - {{ PYTHON }} -m pip install . -vv  # [not win]
-    - {{ PYTHON }} -m pip install . -vv  # [win]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   # python_version_independent: true
   entry_points:
     - pysteps = pysteps:pysteps
