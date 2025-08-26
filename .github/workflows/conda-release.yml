@@ -103,7 +103,7 @@ jobs:
         run: |
           for pkg in build_output/*/*.tar.bz2 build_output/*/*.conda; do
             if [ -f "$pkg" ]; then
-              anaconda -t $ANACONDA_TOKEN upload -u your-channel "$pkg" --skip-existing
+              anaconda -t $ANACONDA_TOKEN upload -u munch-group "$pkg" --skip-existing
             fi
           done
 
