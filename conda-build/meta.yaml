@@ -16,7 +16,7 @@ build:
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   # python_version_independent: true
   entry_points:
-    - pysteps = pysteps:pysteps
+    - pysteps = pysteps.pysteps:run_student_file
 
 requirements:
   host:
