@@ -88,7 +88,7 @@ jobs:
           CONDA_BUILD_CROSS_COMPILATION: 1  # Critical for Windows
           PYTHONUNBUFFERED: 1
         run: |
-          conda mambabuild conda-build/ --output-folder ./build_output --no-test
+          conda build conda-build/ --output-folder ./build_output --no-test
           
       - name: List packages
         shell: bash -el {0}
