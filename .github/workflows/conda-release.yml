@@ -76,59 +76,86 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           miniconda-version: "latest"
+          use-mamba: true
           python-version: ${{ matrix.python-version }}
-          environment-file: conda-build/build_env.yaml 
+          # environment-file: conda-build/build_env.yaml 
           auto-update-conda: false
           auto-activate-base: false
           show-channel-urls: true
           channels: conda-forge,sepandhaghighi
           channel-priority: strict
+          # activate-environment: build-env
 
-
-          activate-environment: build-env
-
-      - name: Install conda-build and anaconda-client
+      - name: Install conda-build
+        shell: bash -el {0}
         run: |
-          conda install conda-build conda-verify anaconda-client
-
-      - name: Build package (Unix)
-        if: runner.os != 'Windows'
-        run: |
-          conda build conda-build/ --output-folder ./build_output
+          mamba install conda-build conda-verify anaconda-client boa
           
-      - name: Build package (Windows)
-        if: runner.os == 'Windows'
-        shell: cmd /C call {0}
+      - name: Build package (all platforms)
+        shell: bash -el {0}
         run: |
-          conda build conda-build/ --output-folder build_output
-     
-      - name: List built packages
-        run: |
-          ls -la build_output/*/ || dir build_output
+          # This works with activate_in_script: false
+          conda mambabuild conda-build/ --output-folder ./build_output
           
-      - name: Upload to Anaconda (if tag)
+      - name: Upload to Anaconda
         if: startsWith(github.ref, 'refs/tags/')
+        shell: bash -el {0}
         env:
           ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
         run: |
-          # Find all built packages
-          for package in $(find build_output -name "*.tar.bz2" -o -name "*.conda" 2>/dev/null || true); do
-            echo "Uploading $package"
-            anaconda -t $ANACONDA_TOKEN upload -u munch-group $package --force
-          done
-          
-      - name: Upload to Anaconda (Windows)
-        if: runner.os == 'Windows' && startsWith(github.ref, 'refs/tags/')
-        shell: pwsh
-        env:
-          ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
-        run: |
-          $packages = Get-ChildItem -Path "build_output" -Recurse -Include "*.tar.bz2","*.conda"
-          foreach ($package in $packages) {
-            Write-Host "Uploading $($package.FullName)"
-            anaconda -t $env:ANACONDA_TOKEN upload -u munch-group $($package.FullName) --force
-          }          
+          anaconda -t $ANACONDA_TOKEN upload build_output/*/*.tar.bz2 --user munch-group
 
+      # - name: Build package (Unix)
+      #   if: runner.os != 'Windows'
+      #   run: |
+      #     conda build conda-build/ --output-folder ./build_output
+          
+      # - name: Build package (Windows)
+      #   if: runner.os == 'Windows'
+      #   shell: cmd /C call {0}
+      #   run: |
+      #     conda build conda-build/ --output-folder build_output
+     
+      # - name: List built packages
+      #   run: |
+      #     ls -la build_output/*/ || dir build_output
+          
+      # - name: Upload to Anaconda (if tag)
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   env:
+      #     ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+      #   run: |
+      #     # Find all built packages
+      #     for package in $(find build_output -name "*.tar.bz2" -o -name "*.conda" 2>/dev/null || true); do
+      #       echo "Uploading $package"
+      #       anaconda -t $ANACONDA_TOKEN upload -u munch-group $package --force
+      #     done
+          
+      # - name: Upload to Anaconda (Windows)
+      #   if: runner.os == 'Windows' && startsWith(github.ref, 'refs/tags/')
+      #   shell: pwsh
+      #   env:
+      #     ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+      #   run: |
+      #     $packages = Get-ChildItem -Path "build_output" -Recurse -Include "*.tar.bz2","*.conda"
+      #     foreach ($package in $packages) {
+      #       Write-Host "Uploading $($package.FullName)"
+      #       anaconda -t $env:ANACONDA_TOKEN upload -u munch-group $($package.FullName) --force
+      #     }          
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
       # - name: Install dependencies
       #   run: |
       #     python -m pip install --upgrade pip
