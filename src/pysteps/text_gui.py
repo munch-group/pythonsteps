@@ -832,18 +832,18 @@ class STEPSApp(App):
 def check_for_conda_update():
     """Checks for a more recent conda version and prints a message.
     """
-    cmd = 'conda search -c munch-group pysteps'
+    cmd = 'conda search -c munch-group pythonsteps'
     cmd = shlex.split(cmd)
     cmd[0] = shutil.which(cmd[0])    
     conda_search = subprocess.check_output(cmd, shell=False).decode()
     newest_version = conda_search.strip().splitlines()[-1].split()[1]
-    cmd = 'conda list -f pysteps'
+    cmd = 'conda list -f pythonsteps'
     cmd = shlex.split(cmd)
     cmd[0] = shutil.which(cmd[0])    
     conda_search = subprocess.check_output(cmd, shell=False).decode()
     this_version = conda_search.strip().splitlines()[-1].split()[1]
     if LooseVersion(newest_version) > LooseVersion(this_version):
-        cmd = 'pixi global update pysteps'
+        cmd = 'pixi global update pythonsteps'
         cmd = shlex.split(cmd)
         cmd[0] = shutil.which(cmd[0])    
         result = subprocess.check_output(cmd, shell=False).decode()
@@ -851,7 +851,7 @@ def check_for_conda_update():
         sys.exit()
         # print('\nPlease update Myiagi to get the most most recent version ({})'.format(newest_version))
         # print('before you start the game. To update Myiagi, run this command:')
-        # print('\n    conda update -y pysteps\n')
+        # print('\n    conda update -y pythonsteps\n')
         # sys.exit()
 
 
@@ -902,7 +902,7 @@ def run():
         day_delta += args.day_delta
         
 
-    pickle_file_name = os.path.join(os.path.expanduser('~'), '.pysteps_progress.pkl')
+    pickle_file_name = os.path.join(os.path.expanduser('~'), '.pythonsteps_progress.pkl')
      
     if os.path.exists(pickle_file_name):
         with open(pickle_file_name, 'rb') as pickle_file:

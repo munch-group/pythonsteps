@@ -37,7 +37,7 @@ interlinks:
     #   inv: objects-test.txt
 
 website:
-  title: "pysteps"
+  title: "pythonsteps"
   page-navigation: true
   navbar:
     left:
@@ -47,7 +47,7 @@ website:
         text: API reference
     right:
       - icon: github
-        href: https://github.com/munch-group/pysteps/
+        href: https://github.com/munch-group/pythonsteps/
   sidebar:
     - id: pages
       title: Get Started
@@ -74,7 +74,7 @@ format:
 quartodoc:
   style: pkgdown
   dir: api
-  package: pysteps
+  package: pythonsteps
   render_interlinks: true
   options:
     signature_name: full
@@ -86,13 +86,13 @@ quartodoc:
 
   sections:
     - title: Some section
-      package: pysteps.modulename
+      package: pythonsteps.modulename
       desc: |
         Some description...
       contents:
         - functionname
     - title: Some other section
-      package: pysteps.modulename
+      package: pythonsteps.modulename
       desc: |
         Some description...
       contents:

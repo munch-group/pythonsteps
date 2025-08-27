@@ -1,6 +1,6 @@
 import unittest
 
-from pysteps.modulename import functionname
+from pythonsteps.modulename import functionname
 
 class TestModulename(unittest.TestCase):
 
