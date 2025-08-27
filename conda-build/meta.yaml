@@ -17,6 +17,8 @@ build:
   # python_version_independent: true
   entry_points:
     - pysteps = pysteps.pysteps:run_student_file
+    - myiagi = pysteps.text_gui:run
+
 
 requirements:
   host:
