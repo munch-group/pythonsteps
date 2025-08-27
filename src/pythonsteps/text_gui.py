@@ -12,9 +12,9 @@ from operator import itemgetter
 import subprocess
 import shlex
 import shutil
-from distutils.version import LooseVersion
 import platform
 from typing import Optional
+from packaging.version import Version
 
 import argparse
 from textwrap import wrap
@@ -842,7 +842,7 @@ def check_for_conda_update():
     cmd[0] = shutil.which(cmd[0])    
     conda_search = subprocess.check_output(cmd, shell=False).decode()
     this_version = conda_search.strip().splitlines()[-1].split()[1]
-    if LooseVersion(newest_version) > LooseVersion(this_version):
+    if Version(newest_version) > Version(this_version):
         cmd = 'pixi global update pythonsteps'
         cmd = shlex.split(cmd)
         cmd[0] = shutil.which(cmd[0])    
@@ -859,9 +859,9 @@ def run():
 
     global course_week_nr, progress, pickle_file_name, score_goals, day_delta
 
-    if LooseVersion(platform.python_version()) >= LooseVersion('3.11'):
-        print(f'It seems you are running python {platform.python_version()}. This version is not yet supported.')
-        sys.exit()
+    # if Version(platform.python_version()) >= Version('3.11'):
+    #     print(f'It seems you are running python {platform.python_version()}. This version is not yet supported.')
+    #     sys.exit()
 
     description = """
     
@@ -901,7 +901,6 @@ def run():
     if args.day_delta is not None:
         day_delta += args.day_delta
         
-
     pickle_file_name = os.path.join(os.path.expanduser('~'), '.pythonsteps_progress.pkl')
      
     if os.path.exists(pickle_file_name):
