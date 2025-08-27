@@ -803,11 +803,11 @@ class STEPS(Screen):
 class STEPSApp(App):
     CSS_PATH = "text_gui.css"
     dark = False
-    SCREENS = {"steps": STEPS()}
+    SCREENS = {"steps": STEPS}
     BINDINGS = [("escape", "push_screen('steps')", "STEPS")]
 
     def on_mount(self) -> None:
-        self.push_screen(self.SCREENS['steps'])
+        self.push_screen("steps")
         # self.install_screen(STEPS(), name="steps")
 
     def on_key_logger_updated(self):
