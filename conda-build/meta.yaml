@@ -19,7 +19,6 @@ build:
     - pysteps = pysteps.pysteps:run_student_file
     - myiagi = pysteps.text_gui:run
 
-
 requirements:
   host:
     - python
