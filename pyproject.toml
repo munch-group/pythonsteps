@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pythonsteps"
-version = "0.1.38"
+version = "0.1.39"
 description = "Project description"
 authors = [
     {name = "Your Name", email = "your@email.com"}
@@ -29,8 +29,8 @@ Repository = "https://github.com/munch-group/pythonsteps"
 Documentation = "https://munch-group.org/pythonsteps"
 
 [project.scripts]
-print-steps = "pythonsteps.pythonsteps:run_student_file"
-pysteps = "pythonsteps.pythonsteps:run_student_file"
+print-steps = "pythonsteps.pysteps:run_student_file"
+pysteps = "pythonsteps.pysteps:run_student_file"
 myiagi = "pythonsteps.text_gui:run"
 
 [tool.setuptools]
