@@ -21,6 +21,70 @@ from textwrap import wrap
 
 
 
+import os
+import json
+from pathlib import Path
+from textual.app import App
+from textual.widgets import Static
+
+class ThemeManager:
+    """Cross-platform theme management with persistence"""
+    
+    @staticmethod
+    def get_config_path():
+        """Get cross-platform config directory"""
+        if sys.platform == "win32":
+            config_dir = Path(os.environ.get('APPDATA', '.'))
+        else:
+            config_dir = Path.home() / '.config'
+        
+        config_dir = config_dir / 'your_app'
+        config_dir.mkdir(parents=True, exist_ok=True)
+        return config_dir / 'theme.json'
+    
+    @classmethod
+    def load_preference(cls):
+        """Load saved theme preference"""
+        config_path = cls.get_config_path()
+        if config_path.exists():
+            try:
+                with open(config_path, 'r') as f:
+                    return json.load(f).get('theme', None)
+            except:
+                pass
+        return None
+    
+    @classmethod
+    def save_preference(cls, theme):
+        """Save theme preference"""
+        config_path = cls.get_config_path()
+        with open(config_path, 'w') as f:
+            json.dump({'theme': theme}, f)
+    
+    @classmethod
+    def detect_theme(cls):
+        """Detect theme with fallback to saved preference"""
+        # First check saved preference
+        saved = cls.load_preference()
+        if saved:
+            return saved
+        
+        # Try environment detection
+        colorfgbg = os.environ.get('COLORFGBG', '')
+        if colorfgbg:
+            try:
+                bg = int(colorfgbg.split(';')[-1])
+                theme = 'light' if bg >= 7 else 'dark'
+                cls.save_preference(theme)  # Save for next time
+                return theme
+            except:
+                pass
+        
+        # Default
+        return 'dark'
+
+
+
 # from urllib.request import urlopen
 import locale
 locale.setlocale(locale.LC_ALL, '')  # Use '' for auto, or force e.g. to 'en_US.UTF-8'
@@ -809,6 +873,15 @@ class STEPSApp(App):
     def on_mount(self) -> None:
         self.push_screen("steps")
         # self.install_screen(STEPS(), name="steps")
+
+        theme = ThemeManager.detect_theme()
+        self.dark = (theme == 'dark')        
+
+        # Save user preference when they change it
+        self.watch(self, "dark", self.on_theme_change)
+    
+    def on_theme_change(self, dark: bool):
+        ThemeManager.save_preference('dark' if dark else 'light')
 
     def on_key_logger_updated(self):
         score = int(progress['current_score']*score_multiplier)
