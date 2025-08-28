@@ -782,10 +782,12 @@ class STEPS(Screen):
     BINDINGS = [("h", "app.pop_screen", "Pop screen")]
 
     player_stats = PlayerStats()
-    message_panel = Static(format_score_goal())
+    message_panel = Static("")
 
     def compose(self) -> ComposeResult:
 #        yield Header()
+        # Initialize message_panel with actual content now that progress is loaded
+        self.message_panel.update(format_score_goal())
         with Container(id="header"):
             # text = text2art("STEP-TRAINER", font="tarty3")
             text = text2art("WAX ON - WAX OFF", font="tarty3")
@@ -910,11 +912,11 @@ def run():
     if os.path.exists(pickle_file_name):
         with open(pickle_file_name, 'rb') as pickle_file:
             progress = pickle.load(pickle_file)
-        ##########################################################
-        # hack to fix old progress files
-        if 15 not in progress['highscores']:
-            progress['highscores'][15] = 0
-        ##########################################################
+        # ##########################################################
+        # # hack to fix old progress files
+        # if 15 not in progress['highscores']:
+        #     progress['highscores'][15] = 0
+        # ##########################################################
     else:
         progress = {'scores': [], 'current_score': 0,
                     'highscores': dict([(w, 0) for w in range(1, 16)])}
