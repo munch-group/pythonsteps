@@ -22,7 +22,15 @@ print(data['project']['version'])
 
   # git tag -a "v${v}" -m "${1:-Release}" && git push origin --tags && echo -e "${GREEN}Released version v${v} ${NC}" && exit
   set -v
-  gh release create $p "v${v}" --title "v$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")" --notes "" && exit
+  s="
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib  
+import tomllib
+print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])
+"
+  gh release create $p "v${v}" --title "v$(python -c $s) --notes "" && exit
 fi
 echo -e "${RED}Failed${NC}"
 
