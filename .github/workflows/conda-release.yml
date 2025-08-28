@@ -73,7 +73,7 @@ jobs:
 #          miniforge-variant: Mambaforge
           miniforge-version: latest
           activate-environment: buildenv  # Match your environment name
-          python-version: 3.9
+#          python-version: 3.9
           # use-mamba: true
           
       - name: Install conda-build
