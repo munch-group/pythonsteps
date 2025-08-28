@@ -22,7 +22,7 @@ print(data['project']['version'])
 
   # git tag -a "v${v}" -m "${1:-Release}" && git push origin --tags && echo -e "${GREEN}Released version v${v} ${NC}" && exit
   set -v
-  v=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])" > /dev/null 2>&1)
+  v=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])" > /dev/null 2>&1 || echo "" )
   if [[ ! $v ]] ; then
     v=$(python -c "import tomli as tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])" > /dev/null 2>&1)
   fi
