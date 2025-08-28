@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pythonsteps"
-version = "0.1.80"
+version = "0.1.81"
 description = "Project description"
 authors = [
     {name = "Your Name", email = "your@email.com"}
@@ -53,6 +53,7 @@ platforms = ["osx-arm64", "win-64", "osx-64", "linux-64"]
 gh = "*"
 pip = "*"
 tomli = "*"
+textual-dev = ">=1.7.0,<2"
 
 # [tool.pixi.pypi-dependencies]
 # Optional PyPI dependencies can be added here
