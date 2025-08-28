@@ -781,6 +781,9 @@ class PlayerStats(DataTable):
 class STEPS(Screen):
     BINDINGS = [("h", "app.pop_screen", "Pop screen")]
 
+    player_stats = PlayerStats()
+    message_panel = Static(format_score_goal())
+
     def compose(self) -> ComposeResult:
 #        yield Header()
         with Container(id="header"):
@@ -792,11 +795,11 @@ class STEPS(Screen):
             with Vertical(id="left-pane"):
                 yield KeyLogger()
             with Horizontal(id="top-right"):
-                self.player_stats = PlayerStats()
+                # self.player_stats = PlayerStats()
                 yield self.player_stats
             with Horizontal(id="bottom-right"):
-                s = format_score_goal()
-                self.message_panel = Static(s)
+                # s = format_score_goal()
+                # self.message_panel = Static(s)
                 yield self.message_panel
 
 
