@@ -494,8 +494,8 @@ def streak_stars(streaks, weeknr, current=False):
     tot_steak = sum(streaks.values())
     begin, end, badge = '', '', ''
     if tot_steak > 2*7:
-        begin = '[b][red]'
-        end = '[/red][/b]'
+        begin = '[bold][red]'
+        end = '[/red][/bold]'
 
     if tot_steak > 7*7 and weeknr == course_week_nr:
         badge = '🥇'

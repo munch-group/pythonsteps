@@ -11,27 +11,26 @@ course_week_nr = max(1, course_week_nr)
 praise = [
         ###################### at most this much text #################################
       # "la ksdlkja sldkjf alskjd lfkasj lkfjas ldkfjaslkdj asdfasdasdfas sadf asdf as"
-        "Good job",
-        "Nice going",
-        "You are a rockstar",
+        "Good job!",
+        "Nice going!",
+        "You are a rock star!",
         "How high can you go?"
-        "Fantastic",
-        "You are doing great",
-        "You are a natural",
-        "Awesome",
+        "Fantastic!",
+        "You are doing great!",
+        "You are a natural!",
+        "Awesome!",
     ]
 random.shuffle(praise)
 praise = itertools.cycle(praise)
 
 
 encouragement = [
-        "You can do this",
+        "You can do this!",
         "Keep it up. Almost there",
         "Give it your best",
-        "You are doing great",
-        "You are getting there",
-        "You are doing better than you think",
-        "Practise makes the master",
+        "You are doing great!",
+        "You are getting there!",
+        "Practice makes the master",
         "Keep going",
     ]
 random.shuffle(encouragement)
