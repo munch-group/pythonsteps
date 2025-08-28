@@ -25,6 +25,7 @@ print(data['project']['version'])
   v=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])" > /dev/null 2>&1 || echo "" )
   echo $v
   if [[ ! $v ]] ; then
+    echo 'asdfasdfassdfasdf'
     v=$(python -c "import tomli as tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])" > /dev/null 2>&1)
   fi
   echo $v
