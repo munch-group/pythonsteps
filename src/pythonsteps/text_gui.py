@@ -430,10 +430,10 @@ def highlight_code(code):
     print(s)
     color = '#ffffff'
     s = re.sub(fr'\[color={color}\](\s+?)\[/color\]', r'\1', s)
-    # for color, repl in [('#007f00', 'red3'), ('#0000ff', 'black'), ('#7f0000', 'dark_magenta'), ('#00007f', 'dark_goldenrod')]:
-    #     s = re.sub(fr'color={color}(\].*?\[/)color', fr'{repl}\1{repl}', s)
-    for color, repl in [('#007f00', 'none'), ('#0000ff', 'none'), ('#7f0000', 'none'), ('#00007f', 'none')]:
+    for color, repl in [('#007f00', 'red3'), ('#0000ff', 'black'), ('#7f0000', 'dark_magenta'), ('#00007f', 'dark_goldenrod')]:
         s = re.sub(fr'color={color}(\].*?\[/)color', fr'{repl}\1{repl}', s)
+    # for color, repl in [('#007f00', 'none'), ('#0000ff', 'none'), ('#7f0000', 'none'), ('#00007f', 'none')]:
+    #     s = re.sub(fr'color={color}(\].*?\[/)color', fr'{repl}\1{repl}', s)
     return s
 
 
