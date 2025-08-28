@@ -832,27 +832,27 @@ class STEPSApp(App):
 def check_for_conda_update():
     """Checks for a more recent conda version and prints a message.
     """
-    cmd = 'conda search -c munch-group pythonsteps'
-    cmd = shlex.split(cmd)
-    cmd[0] = shutil.which(cmd[0])    
-    conda_search = subprocess.check_output(cmd, shell=False).decode()
-    newest_version = conda_search.strip().splitlines()[-1].split()[1]
-    cmd = 'conda list -f pythonsteps'
-    cmd = shlex.split(cmd)
-    cmd[0] = shutil.which(cmd[0])    
-    conda_search = subprocess.check_output(cmd, shell=False).decode()
-    this_version = conda_search.strip().splitlines()[-1].split()[1]
-    if Version(newest_version) > Version(this_version):
-        cmd = 'pixi global update pythonsteps'
-        cmd = shlex.split(cmd)
-        cmd[0] = shutil.which(cmd[0])    
-        result = subprocess.check_output(cmd, shell=False).decode()
-        print("Myiagi was updated. Please start it again.")
-        sys.exit()
-        # print('\nPlease update Myiagi to get the most most recent version ({})'.format(newest_version))
-        # print('before you start the game. To update Myiagi, run this command:')
-        # print('\n    conda update -y pythonsteps\n')
-        # sys.exit()
+    subprocess.check_call("pixi global update --quiet pythonsteps".split(), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)    # cmd = 'conda search -c munch-group pythonsteps'
+    # cmd = shlex.split(cmd)
+    # cmd[0] = shutil.which(cmd[0])    
+    # conda_search = subprocess.check_output(cmd, shell=False).decode()
+    # newest_version = conda_search.strip().splitlines()[-1].split()[1]
+    # cmd = 'conda list -f pythonsteps'
+    # cmd = shlex.split(cmd)
+    # cmd[0] = shutil.which(cmd[0])    
+    # conda_search = subprocess.check_output(cmd, shell=False).decode()
+    # this_version = conda_search.strip().splitlines()[-1].split()[1]
+    # if Version(newest_version) > Version(this_version):
+    #     cmd = 'pixi global update pythonsteps'
+    #     cmd = shlex.split(cmd)
+    #     cmd[0] = shutil.which(cmd[0])    
+    #     result = subprocess.check_output(cmd, shell=False).decode()
+    #     print("Myiagi was updated. Please start it again.")
+    #     sys.exit()
+    #     # print('\nPlease update Myiagi to get the most most recent version ({})'.format(newest_version))
+    #     # print('before you start the game. To update Myiagi, run this command:')
+    #     # print('\n    conda update -y pythonsteps\n')
+    #     # sys.exit()
 
 
 def run():
