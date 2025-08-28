@@ -859,9 +859,9 @@ def run():
 
     global course_week_nr, progress, pickle_file_name, score_goals, day_delta
 
-    # if Version(platform.python_version()) >= Version('3.11'):
-    #     print(f'It seems you are running python {platform.python_version()}. This version is not yet supported.')
-    #     sys.exit()
+    if Version(platform.python_version()) >= Version('3.11'):
+        print(f'It seems you are running python {platform.python_version()}. This version is not yet supported.')
+        sys.exit()
 
     description = """
     
