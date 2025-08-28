@@ -426,13 +426,13 @@ class MyStyle(Style):
 
 
 def highlight_code(code):
-    # s = highlight(code, Python3Lexer(), BBCodeFormatter(style=MyStyle))
+    s = highlight(code, Python3Lexer(), BBCodeFormatter(style=MyStyle))
     # color = '#ffffff'
     # s = re.sub(fr'\[color={color}\](\s+?)\[/color\]', r'\1', s)
     # for color, repl in [('#007f00', 'red3'), ('#0000ff', 'black'), ('#7f0000', 'dark_magenta'), ('#00007f', 'dark_goldenrod')]:
     #     s = re.sub(fr'color={color}(\].*?\[/)color', fr'{repl}\1{repl}', s)
-    # return s
-    return code
+    return s
+
 
 def sparkline_bars(data):
     BARS = u' ▁▂▃▄▅▆▇█'
