@@ -38,12 +38,14 @@ encouragement = itertools.cycle(encouragement)
 
 integers = [1, 2, 3, 4, 5, 6, 7] # values should overlap with indexes and keys
 random.shuffle(integers)
-foo, bar, baz, n, i, j, k = integers 
+# foo, bar, baz, n, i, j, k = integers 
+a, b, c, n, i, j, k = integers 
 label, tag, fix, nam = 'Ib', 'Bo', '42', 'Bo' # values should overlap with keys
 order, mat, letters, nucl = [1, 10, 3, 2, 4, 7, 0], [[11, 22], [33, 44]], ['a', 'b', 'c', 'd', 'e'], ['A', 'T', 'G'] # there has to be a list with only strings
 accounts, records = {1:42, 2:119, 7:32}, {'Ib':{'x': 1, 'y': 2}, 'Bo':{'x': 1, 'y': 2}}
 
-numbers = ['foo', 'bar', 'baz', 'n', 'i', 'j', 'k']
+# numbers = ['foo', 'bar', 'baz', 'n', 'i', 'j', 'k']
+numbers = ['a', 'b', 'c', 'n', 'i', 'j', 'k']
 strings = ['label', 'tag', 'fix' '']
 lists = ['order', 'mat', 'letters', 'nucl']
 dicts = ['accounts', 'records']
