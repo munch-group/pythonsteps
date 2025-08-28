@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pythonsteps"
-version = "0.1.46"
+version = "0.1.47"
 description = "Project description"
 authors = [
     {name = "Your Name", email = "your@email.com"}
@@ -22,6 +22,7 @@ dependencies = [
   'rich',
   'art',
   'packaging',
+  'tomli',
 ]
 
 [project.urls]
