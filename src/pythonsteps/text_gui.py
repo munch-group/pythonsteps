@@ -880,21 +880,23 @@ def run():
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
                                         description=description)
 
-    parser.add_argument('-w',
+    parser.add_argument('-w', '--week',
                     dest="course_week_nr",
                     type=int,
                     default=None,
-                    help='Course week number.')
+                    help='Course week number')
     parser.add_argument('-d',
                     dest='day_delta',
                     type=int,
                     default=None,
-                    help="Number of days before weekday.")
+                    # help="Number of days before weekday."
+                    )
     parser.add_argument('-s',
                     dest='skip_update_check',
                     action='store_true',
                     default=False,
-                    help="Skip checking for updates.")
+                    # help="Skip checking for updates."
+                    )
 
     args = parser.parse_args()
 
@@ -902,6 +904,14 @@ def run():
         check_for_conda_update()
 
     if args.course_week_nr is not None:
+
+        if args.course_week_nr > 15:
+            course_start_week = args.course_week_nr
+        if args.course_week_nr < 0:
+             args.course_week_nr = course_week_nr + args.course_week_nr
+        else:
+             args.course_week_nr = course_start_week + args.course_week_nr - 1
+        
         day_delta = (args.course_week_nr - course_week_nr) * 7
         course_week_nr = args.course_week_nr
     if args.day_delta is not None:
